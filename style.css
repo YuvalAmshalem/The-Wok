@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap");
+
+* {
+  margin: 0;
+}
+body {
+  background-color: rgb(228, 62, 40);
+  height: 100%;
+}
+#start-screen {
+  /*background-color: rgb(35, 131, 35);*/
+  text-align: center;
+  height: 50em;
+  padding: 3em;
+}
+#start-screen h1 {
+  font-family: "Libre Baskerville", serif;
+  -webkit-text-stroke: 0.2vh black;
+  font-size: 6vh;
+  margin: 2em 3em 4em;
+  color: rgb(243, 243, 41);
+}
+
+#start-screen button {
+  align-items: center;
+  height: 3em;
+  font-family: "Libre Baskerville", serif;
+  border-radius: 8%;
+  margin-top: 5em;
+  background-color: rgb(243, 243, 41);
+  display: flexbox;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 1em;
+}
+#htpscreen {
+  display: none;
+  font-family: "Libre Baskerville", serif;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  align-items: center;
+  justify-content: space-around;
+}
+#htpscreen p {
+  font-size: 1.2em;
+  -webkit-text-stroke: 0.02em black;
+  color: rgb(243, 243, 41);
+}
+#htpscreen button {
+  background-color: rgb(243, 243, 41);
+}
+#htpscreen button:hover,
+#start-screen button:hover {
+  cursor: pointer;
+  background-color: rgb(153, 153, 33);
+}
+#play {
+  display: none;
+  grid-template-columns: 10em 10em 10em;
+}
+#play img {
+  width: 80%;
+  height: 80%;
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 0.7;
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.fadeOut {
+  animation: fadeOut 1.5s linear forwards;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
