@@ -51,11 +51,11 @@ var play=function(){
     Buttons:
         {
             Serve Order
-            Dump Order
+            Dump Order -PENDING
             (optional- Take Order- if used, orders will not show next to customers as they wait. could be difficulty-related)
             Menu items- broccoli, soy sauce, noodles, rice, chicken, beef, shrimp, sesame seeds.
             Exit
-            Pause
+            Pause -PENDING
         }
     immidiate customer is the first one in the array- so when his order is completed, just shift to remove first array element.
     when customer's order is satisfied, player gets points according to the time it took him to make the order (maybe).
