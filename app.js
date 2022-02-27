@@ -1,3 +1,61 @@
+class Customer{
+    constructor(img,gameDif, id){
+        this._difficulty=this.customerDifficulty(gameDif);//for now
+        this._img=img;
+        this._id=id;
+        this._custHappy=false;
+        this._order=this.createOrder();
+
+    }
+    setWok(){
+        this.img="'./assets/wok.jpg'";
+    }
+    createOrder(difficulty){      
+        let orderNum=Math.floor(Math.random())*100000*(10**difficulty);//make sure it isn't 0000000
+        let orderArr=Array.from(orderNum.toString()).map(Number);
+        let finalOrderArr=[]
+        for(let x in orderArr){
+            finalOrderArr.push(["noodles","rice","beef","chicken","sesame","shrimp","broccoli",,,,][x]);//need to make sure it's possible
+        }
+        return finalOrderArr;
+    }
+    customerDifficulty(dif){
+        return dif+Math.floor(Math.random())/2 ;//for now
+    }
+    orderComplete(){
+        this._custHappy=true;
+    }
+    set order(ord){
+        this._order=ord;
+    }
+    get id(){
+        return this._id;
+    }
+    get order(){
+        return this._order;
+    }
+    get img(){
+        return this._img;
+    }
+
+    set img(txt){
+        //something feels risky here
+        this._img.src=txt;
+    }
+    get difficulty(){
+        return this._difficulty;
+    }
+    get custHappy(){
+        return this._custHappy;
+    }
+    get timer(){
+        return 5000/this._difficulty;
+    }
+    //setWok(){
+    //    this.img.src='./assets/wok.jpg';
+    //} 
+
+}
 var start=function(){
 
     const playScrn=document.getElementById("start-screen");
@@ -29,8 +87,9 @@ var start=function(){
     
 var play=function(){
     //actual game
+    const difficulty= 1;// maybe change it later
     const idName="rockimg";
-    let idNum=1;
+    var idNum=1;
     let playScrn=document.getElementById("play");
     let rockArr=[];
     for(i=1;i<6;i++){
@@ -44,8 +103,32 @@ var play=function(){
     let playerImg=document.getElementById("playerrock"); //get the user's image
     playScrn.style.display="grid"; //display the play screen (as a grid)
     let currentCustomers=[]; 
-    currentCustomers.push(newCustomer());//push a new customer into the current customers array
-    
+    addCus();
+    function addCus(){
+        currentCustomers.push(newCustomer());//push a new customer into the current customers array
+        currentCustomers[currentCustomers.length-1].promise.then(promiseOutcome=>theWok());
+        //currentCustomers[currentCustomers.length-1].promise.catch(doNothing);
+    }
+    function gameStart(){
+        //
+        
+
+    }
+    function theWok(){
+        currentCustomers.forEach((customer)=>{
+            //change images to the wok
+            for(cust of currentCustomers){cust.img='./assets/wok.jpg'};
+            
+        });
+
+        //playScrn.style.display="none"; 
+        //nextGame();
+    }
+    function doNothing(){
+        console.log("doNothing");
+    }
+
+
     /* 
     Game loop ideas:
     Buttons:
@@ -72,13 +155,20 @@ var play=function(){
     Liron's idea- Make a song (with one instrument) or a melody/solo and play a different part/note of it every time a button is clicked, so it's playing in order and the bpm is defined by how fast the user is clicking.
     */
   
-    function newCustomer(){ //function clones one of the rockArr img elements, adds it to play screen and returns it
+    function newCustomer(){
+        //function clones one of the rockArr img elements, adds it to play screen and returns it
         randImgNum=Math.floor(Math.random()*5);
-        //console.log(`%c ${randImgNum}`,"color:green;" )
-        newCus=rockArr[randImgNum].cloneNode(true);
-        newCus.id=idName+toString(idNum); //define a new id for it. maybe save the id somewhere? leaving it for now
+        let id=idName+idNum; //define a new id for it.
+        newCus=new Customer(rockArr[randImgNum].cloneNode(true),difficulty,id);
         idNum++;
-        playScrn.appendChild(newCus);
+        newCus.img.id=id;
+        newCus.img.classList.add("customer");
+        playScrn.appendChild(newCus.img);
+        newCus.promise=new Promise((resolve,reject)=>{ //maybe use chaining .then to get notified when impatience timestamps are reached.
+            setTimeout(()=>{
+                if (newCus.custHappy){reject();}else{resolve();}
+            },newCus.timer);
+        });
         return newCus;
     }
 
